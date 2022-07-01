@@ -1,28 +1,23 @@
 class CampersController < ApplicationController
-	rescue_from ::ActiveRecord::RecordNotFound, with: :record_not_found
+
 	def index
-		campers = Camper.all
-		render json: campers, status: :ok
+		render json: Camper.all
 	end
 
 	def show
 		camper = Camper.find(params[:id])
-		render json: camper, include: :activities, status: :ok
+		render json: camper, serializer: CamperWithActivitiesSerializer
 	end
 
 	def create
-		camper = Camper.create(campers_params)
+		camper = Camper.create!(camper_params)
 		render json: camper, status: :created
 	end
 
 	private
 
-	def campers_params
+	def camper_params
 		params.permit(:name, :age)
-	end
-
-	def record_not_found(exception)
-		render json: { error: "Camper not found" }, status: :not_found
 	end
 
 end
