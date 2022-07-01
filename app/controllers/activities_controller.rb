@@ -9,14 +9,12 @@ class ActivitiesController < ApplicationController
 	def destroy
 		activity = Activity.find(params[:id])
 		activity.destroy
-		# render json: { errors: activity.messages}, status: :not_found
-		# record_not_found(activity)
 	end
 
 	private
 
 	def record_not_found(exception)
-		render json: { error: "Not found" }, status: :not_found
+		render json: { error: "Activity not found" }, status: :not_found
 	end
 
 end
